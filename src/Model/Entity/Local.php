@@ -4,16 +4,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * User Entity
+ * Local Entity
  *
  * @property int $id
- * @property string|null $nome
- * @property string|null $email
- * @property string|null $password
+ * @property string|null $rua
+ * @property string|null $bairro
+ * @property string|null $cidade
+ * @property string|null $estado
  *
  * @property \App\Model\Entity\Angiosperma[] $angiospermas
  */
-class User extends Entity
+class Local extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -25,18 +26,10 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
-        'nome' => true,
-        'email' => true,
-        'password' => true,
+        'rua' => true,
+        'bairro' => true,
+        'cidade' => true,
+        'estado' => true,
         'angiospermas' => true,
-    ];
-
-    /**
-     * Fields that are excluded from JSON versions of the entity.
-     *
-     * @var array
-     */
-    protected $_hidden = [
-        'password',
     ];
 }

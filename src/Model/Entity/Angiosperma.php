@@ -9,8 +9,13 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string|null $nome
  * @property string|null $imagem
+ * @property int|null $local_id
+ * @property int|null $species_id
+ * @property int|null $user_id
  *
- * @property \App\Model\Entity\Planta[] $plantas
+ * @property \App\Model\Entity\Local $local
+ * @property \App\Model\Entity\Species $species
+ * @property \App\Model\Entity\User $user
  */
 class Angiosperma extends Entity
 {
@@ -26,6 +31,11 @@ class Angiosperma extends Entity
     protected $_accessible = [
         'nome' => true,
         'imagem' => true,
-        'plantas' => true,
+        'local_id' => true,
+        'species_id' => true,
+        'user_id' => true,
+        'local' => true,
+        'species' => true,
+        'user' => true,
     ];
 }
