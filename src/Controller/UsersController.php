@@ -12,6 +12,14 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+    
+    public function initialize () {
+        parent::initialize();
+        $this->Auth->allow(['home','add','saibaMais']);
+    }
+    
+    
+    
     /**
      * Index method
      *
@@ -34,7 +42,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Plantas'],
+            'contain' => ['Angiospermas'],
         ]);
 
         $this->set('user', $user);
@@ -50,15 +58,22 @@ class UsersController extends AppController
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+            
+            if ( $user = $this->Users->save($user) ) {
+                
+                $this->Flash->success('A sua conta foi criada com sucesso.');
 
-                return $this->redirect(['action' => 'index']);
+                //salvar id do usuário na sessão
+                $this->request->getSession()->write('user_id', $user->id);
+
+                //redirecionar usuário para locals/add
+                
+                return $this->redirect(['controller' => 'species',  'action' => 'select']);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error('A sua conta não pode ser criada, Por favor, tente novamente.');
         }
-        $plantas = $this->Users->Plantas->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'plantas'));
+        $angiospermas = $this->Users->Angiospermas->find('list', ['limit' => 200]);
+        $this->set(compact('user', 'angiospermas'));
     }
 
     /**
@@ -71,7 +86,7 @@ class UsersController extends AppController
     public function edit($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Plantas'],
+            'contain' => ['Angiospermas'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
@@ -82,8 +97,8 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $plantas = $this->Users->Plantas->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'plantas'));
+        $angiospermas = $this->Users->Angiospermas->find('list', ['limit' => 200]);
+        $this->set(compact('user', 'angiospermas'));
     }
 
     /**
@@ -104,5 +119,13 @@ class UsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function home () {
+    
+    }
+
+    public function saibaMais () {
+    
     }
 }

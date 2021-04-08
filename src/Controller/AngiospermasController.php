@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Cake\Event\Event;
 use App\Controller\AppController;
 
 /**
@@ -12,6 +13,19 @@ use App\Controller\AppController;
  */
 class AngiospermasController extends AppController
 {
+
+    public function beforeFilter(Event $event)
+    {
+        $this->getEventManager()->off($this->Csrf);
+    }
+
+
+    public function initialize () {
+        parent::initialize();
+        $this->Auth->allow(['home','add','edit','delete']);
+    }
+
+
     /**
      * Index method
      *
@@ -19,6 +33,10 @@ class AngiospermasController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Locals', 'Species', 'Users'],
+            
+        ];
         $angiospermas = $this->paginate($this->Angiospermas);
 
         $this->set(compact('angiospermas'));
@@ -34,7 +52,7 @@ class AngiospermasController extends AppController
     public function view($id = null)
     {
         $angiosperma = $this->Angiospermas->get($id, [
-            'contain' => ['Plantas'],
+            'contain' => ['Locals', 'Users'],
         ]);
 
         $this->set('angiosperma', $angiosperma);
@@ -48,16 +66,36 @@ class AngiospermasController extends AppController
     public function add()
     {
         $angiosperma = $this->Angiospermas->newEntity();
+        
         if ($this->request->is('post')) {
+            
             $angiosperma = $this->Angiospermas->patchEntity($angiosperma, $this->request->getData());
+            
+            $angiosperma->imagem = $_FILES['imagem']['name'];
+
+            $angiosperma->local_id = $this->request->getSession()->read('local_id');
+
+            $angiosperma->species_id = $this->request->getSession()->read('species_id');
+
+            $angiosperma->user_id = $this->request->getSession()->read('user_id');
+            
             if ($this->Angiospermas->save($angiosperma)) {
-                $this->Flash->success(__('The angiosperma has been saved.'));
+
+                $destino = WWW_ROOT . "imagens_angiospermas" . DS .  $angiosperma->id . DS;
+
+                $imageToUpload = $this->request->getData()['imagem'];
+                                    
+                $this->Angiospermas->singleImageUpload( $imageToUpload, $destino );
+                
+                $this->Flash->success('A foto foi salva com sucesso.');
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The angiosperma could not be saved. Please, try again.'));
+            $this->Flash->error('A foto não pode ser salva. Por favor, tente novamente.');
         }
-        $this->set(compact('angiosperma'));
+        $locals = $this->Angiospermas->Locals->find('list', ['limit' => 200]);
+        $users = $this->Angiospermas->Users->find('list', ['limit' => 200]);
+        $this->set(compact('angiosperma', 'locals', 'users'));
     }
 
     /**
@@ -70,7 +108,7 @@ class AngiospermasController extends AppController
     public function edit($id = null)
     {
         $angiosperma = $this->Angiospermas->get($id, [
-            'contain' => [],
+            'contain' => ['Users'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $angiosperma = $this->Angiospermas->patchEntity($angiosperma, $this->request->getData());
@@ -81,7 +119,9 @@ class AngiospermasController extends AppController
             }
             $this->Flash->error(__('The angiosperma could not be saved. Please, try again.'));
         }
-        $this->set(compact('angiosperma'));
+        $locals = $this->Angiospermas->Locals->find('list', ['limit' => 200]);
+        $users = $this->Angiospermas->Users->find('list', ['limit' => 200]);
+        $this->set(compact('angiosperma', 'locals', 'users'));
     }
 
     /**
