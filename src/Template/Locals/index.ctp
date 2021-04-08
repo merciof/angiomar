@@ -3,7 +3,7 @@
 $this->extend('../Layout/TwitterBootstrap/dashboard');
 $this->start('tb_actions');
 ?>
-    <li><?= $this->Html->link(__('New User'), ['action' => 'add']); ?></li>
+    <li><?= $this->Html->link(__('New Local'), ['action' => 'add']); ?></li>
     <li><?= $this->Html->link(__('List Angiospermas'), ['controller' => 'Angiospermas', 'action' => 'index']); ?></li>
     <li><?= $this->Html->link(__('New Angiosperma'), ['controller' => 'Angiospermas', 'action' => 'add']); ?></li>
 <?php $this->end(); ?>
@@ -13,23 +13,25 @@ $this->start('tb_actions');
     <thead>
         <tr>
             <th><?= $this->Paginator->sort('id'); ?></th>
-            <th><?= $this->Paginator->sort('nome'); ?></th>
-            <th><?= $this->Paginator->sort('email'); ?></th>
-            <th><?= $this->Paginator->sort('password'); ?></th>
+            <th><?= $this->Paginator->sort('rua'); ?></th>
+            <th><?= $this->Paginator->sort('bairro'); ?></th>
+            <th><?= $this->Paginator->sort('cidade'); ?></th>
+            <th><?= $this->Paginator->sort('estado'); ?></th>
             <th class="actions"><?= __('Actions'); ?></th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($users as $user): ?>
+        <?php foreach ($locals as $local): ?>
         <tr>
-            <td><?= $this->Number->format($user->id) ?></td>
-            <td><?= h($user->nome) ?></td>
-            <td><?= h($user->email) ?></td>
-            <td><?= h($user->password) ?></td>
+            <td><?= $this->Number->format($local->id) ?></td>
+            <td><?= h($local->rua) ?></td>
+            <td><?= h($local->bairro) ?></td>
+            <td><?= h($local->cidade) ?></td>
+            <td><?= h($local->estado) ?></td>
             <td class="actions">
-                <?= $this->Html->link('', ['action' => 'view', $user->id], ['title' => __('View'), 'class' => 'btn btn-default glyphicon glyphicon-eye-open']) ?>
-                <?= $this->Html->link('', ['action' => 'edit', $user->id], ['title' => __('Edit'), 'class' => 'btn btn-default glyphicon glyphicon-pencil']) ?>
-                <?= $this->Form->postLink('', ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'title' => __('Delete'), 'class' => 'btn btn-default glyphicon glyphicon-trash']) ?>
+                <?= $this->Html->link('', ['action' => 'view', $local->id], ['title' => __('View'), 'class' => 'btn btn-default glyphicon glyphicon-eye-open']) ?>
+                <?= $this->Html->link('', ['action' => 'edit', $local->id], ['title' => __('Edit'), 'class' => 'btn btn-default glyphicon glyphicon-pencil']) ?>
+                <?= $this->Form->postLink('', ['action' => 'delete', $local->id], ['confirm' => __('Are you sure you want to delete # {0}?', $local->id), 'title' => __('Delete'), 'class' => 'btn btn-default glyphicon glyphicon-trash']) ?>
             </td>
         </tr>
         <?php endforeach; ?>
