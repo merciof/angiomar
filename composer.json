@@ -9,8 +9,10 @@
         "cakephp/cakephp": "3.9.*",
         "cakephp/migrations": "^2.0.0",
         "cakephp/plugin-installer": "^1.0",
+        "components/jquery": "1.12.4",
         "friendsofcake/bootstrap-ui": "1.4.3",
-        "mobiledetect/mobiledetectlib": "2.*"
+        "mobiledetect/mobiledetectlib": "2.*",
+        "twbs/bootstrap": "3.3.7"
     },
     "require-dev": {
         "cakephp/bake": "^1.9.0",
@@ -38,7 +40,6 @@
     "scripts": {
         "post-install-cmd": "App\\Console\\Installer::postInstall",
         "post-create-project-cmd": "App\\Console\\Installer::postInstall",
-        "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump",
         "check": [
             "@test",
             "@cs-check"
