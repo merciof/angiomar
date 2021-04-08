@@ -9,7 +9,9 @@ use Cake\Validation\Validator;
 /**
  * Angiospermas Model
  *
- * @property \App\Model\Table\PlantasTable&\Cake\ORM\Association\HasMany $Plantas
+ * @property \App\Model\Table\LocalsTable&\Cake\ORM\Association\BelongsTo $Locals
+ * @property \App\Model\Table\SpeciesTable&\Cake\ORM\Association\BelongsTo $Species
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  *
  * @method \App\Model\Entity\Angiosperma get($primaryKey, $options = [])
  * @method \App\Model\Entity\Angiosperma newEntity($data = null, array $options = [])
@@ -36,9 +38,17 @@ class AngiospermasTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Plantas', [
-            'foreignKey' => 'angiosperma_id',
+        $this->belongsTo('Locals', [
+            'foreignKey' => 'local_id',
         ]);
+        $this->belongsTo('Species', [
+            'foreignKey' => 'species_id',
+        ]);
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+        ]);
+
+        $this->addBehavior('Upload');
     }
 
     /**
@@ -64,5 +74,21 @@ class AngiospermasTable extends Table
             ->allowEmptyFile('imagem');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['local_id'], 'Locals'));
+        $rules->add($rules->existsIn(['species_id'], 'Species'));
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
+
+        return $rules;
     }
 }

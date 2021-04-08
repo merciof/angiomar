@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property \App\Model\Table\PlantasTable&\Cake\ORM\Association\BelongsToMany $Plantas
+ * @property \App\Model\Table\AngiospermasTable&\Cake\ORM\Association\HasMany $Angiospermas
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
@@ -33,13 +33,11 @@ class UsersTable extends Table
         parent::initialize($config);
 
         $this->setTable('users');
-        $this->setDisplayField('id');
+        $this->setDisplayField('email');
         $this->setPrimaryKey('id');
 
-        $this->belongsToMany('Plantas', [
+        $this->hasMany('Angiospermas', [
             'foreignKey' => 'user_id',
-            'targetForeignKey' => 'planta_id',
-            'joinTable' => 'plantas_users',
         ]);
     }
 
