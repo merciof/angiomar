@@ -22,7 +22,7 @@ $this->extend('../Layout/TwitterBootstrap/dashboard');
     <div class="row">
 
         <div class="col-md-4">
-            <form action="http://localhost:8080/species/select" method="POST">
+            <form action="/species/select" method="POST">
 
                 <!-- enviar o código csrf -->
 
@@ -40,7 +40,7 @@ $this->extend('../Layout/TwitterBootstrap/dashboard');
 
             <br>
 
-            <form action="http://localhost:8080/species/select" method="POST">
+            <form action="/species/select" method="POST">
 
                 <input type="hidden" value="2" name="species_id">
 
@@ -54,7 +54,7 @@ $this->extend('../Layout/TwitterBootstrap/dashboard');
 
         <div class="col-md-4">
             <br>
-            <form action="http://localhost:8080/species/select" method="POST">
+            <form action="/species/select" method="POST">
 
                 <input type="hidden" name="species_id" value="3">
 
