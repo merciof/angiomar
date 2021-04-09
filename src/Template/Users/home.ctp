@@ -230,7 +230,7 @@
           <h1 class="cover-heading" id="titulo"> Angiomar</h1>
           <p class="lead">O Angiomar tem o própósito de ajudar a preservar as angiospermas marinhas, aqui você pode facilmente nos ajudar a localizá-las. Cadastre-se abaixo e apoie a nossa causa! </p>
           <p class="lead">
-            <a href="http://localhost:8080/users/add" class="btn btn-lg btn-default">Cadastre-se</a>
+            <a href="/users/add" class="btn btn-lg btn-default">Cadastre-se</a>
           </p>
         </div>
 
